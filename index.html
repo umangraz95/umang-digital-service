@@ -1,10 +1,12 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>UMANG DIGITAL SERVICE</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -179,6 +181,11 @@ input:focus,select:focus{
   cursor:pointer;
 }
 
+.submit-btn:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+}
+
 .message{
   display:none;
   margin-top:20px;
@@ -189,6 +196,16 @@ input:focus,select:focus{
   color:#bbf7d0;
 }
 
+.error-message{
+  display:none;
+  margin-top:20px;
+  padding:15px;
+  background:#451a1a;
+  border:1px solid #f87171;
+  border-radius:8px;
+  color:#fecaca;
+}
+
 footer{
   padding:25px;
   text-align:center;
@@ -197,6 +214,7 @@ footer{
 }
 
 @media(max-width:700px){
+
   header{
     flex-direction:column;
     gap:15px;
@@ -221,7 +239,10 @@ footer{
 <body>
 
 <header>
-  <div class="logo">UMANG DIGITAL SERVICE</div>
+
+  <div class="logo">
+    UMANG DIGITAL SERVICE
+  </div>
 
   <nav>
     <a href="#home">Home</a>
@@ -229,129 +250,296 @@ footer{
     <a href="#plans">Plans</a>
     <a href="#register">Register</a>
   </nav>
+
 </header>
 
+
 <section class="hero" id="home">
+
   <div>
-    <h1>Welcome to <span>UMANG DIGITAL SERVICE</span></h1>
+
+    <h1>
+      Welcome to <span>UMANG DIGITAL SERVICE</span>
+    </h1>
 
     <p>
       Cyber Cafe & Digital Services Portal.
       Choose your plan and register for our digital service platform.
     </p>
 
-    <a href="#plans" class="btn green">View Plans</a>
-    <a href="#register" class="btn outline">Register Now</a>
+    <a href="#plans" class="btn green">
+      View Plans
+    </a>
+
+    <a href="#register" class="btn outline">
+      Register Now
+    </a>
+
   </div>
+
 </section>
 
+
 <section class="section" id="services">
+
   <h2>Our Services</h2>
 
   <div class="cards">
 
     <div class="card">
       <h3>🖨️ Printing & Xerox</h3>
+
       <p>
         Colour print, B&W print, Xerox, scanning,
         lamination and passport photo services.
       </p>
     </div>
 
+
     <div class="card">
+
       <h3>📄 Online Forms</h3>
+
       <p>
         Online application assistance for eligible
         government, education and digital services.
       </p>
+
     </div>
 
+
     <div class="card">
+
       <h3>💻 Digital Services</h3>
+
       <p>
         Digital documentation and other authorized
         cyber cafe services.
       </p>
+
     </div>
 
   </div>
+
 </section>
 
+
 <section class="section" id="plans">
+
   <h2>Choose Your Plan</h2>
 
   <div class="cards">
 
     <div class="card">
+
       <h3>Retailer</h3>
-      <div class="price">₹50</div>
-      <p>Cyber Cafe & Digital Services</p>
-      <a href="#register" class="btn green">Register</a>
+
+      <div class="price">
+        ₹50
+      </div>
+
+      <p>
+        Cyber Cafe & Digital Services
+      </p>
+
+      <a href="#register" class="btn green">
+        Register
+      </a>
+
     </div>
 
+
     <div class="card">
+
       <h3>Distributor</h3>
-      <div class="price">₹150</div>
-      <p>Retailer Services + Additional Services</p>
-      <a href="#register" class="btn green">Register</a>
+
+      <div class="price">
+        ₹150
+      </div>
+
+      <p>
+        Retailer Services + Additional Services
+      </p>
+
+      <a href="#register" class="btn green">
+        Register
+      </a>
+
     </div>
 
+
     <div class="card">
+
       <h3>Super Distributor</h3>
-      <div class="price">₹400</div>
-      <p>Advanced Services + Authorized ID Management</p>
-      <a href="#register" class="btn green">Register</a>
+
+      <div class="price">
+        ₹400
+      </div>
+
+      <p>
+        Advanced Services + Authorized ID Management
+      </p>
+
+      <a href="#register" class="btn green">
+        Register
+      </a>
+
     </div>
 
   </div>
+
 </section>
+
 
 <section class="section" id="register">
 
   <div class="form-box">
 
-    <h2>📝 Register Now</h2>
+    <h2>
+      📝 Register Now
+    </h2>
+
 
     <form id="registrationForm">
 
-      <label>Full Name</label>
-      <input type="text" id="name" placeholder="Enter your full name" required>
+      <label>
+        Full Name
+      </label>
 
-      <label>Mobile Number</label>
-      <input type="tel" id="mobile" placeholder="Enter 10 digit mobile number"
-             pattern="[0-9]{10}" required>
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter your full name"
+        required
+      >
 
-      <label>Email Address</label>
-      <input type="email" id="email" placeholder="Enter your email" required>
 
-      <label>State</label>
+      <label>
+        Mobile Number
+      </label>
+
+      <input
+        type="tel"
+        id="mobile"
+        placeholder="Enter 10 digit mobile number"
+        pattern="[0-9]{10}"
+        maxlength="10"
+        required
+      >
+
+
+      <label>
+        Email Address
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      >
+
+
+      <label>
+        State
+      </label>
+
       <select id="state" required>
-        <option value="">Select State</option>
-        <option>Bihar</option>
-        <option>Uttar Pradesh</option>
-        <option>Jharkhand</option>
-        <option>West Bengal</option>
-        <option>Other</option>
+
+        <option value="">
+          Select State
+        </option>
+
+        <option>
+          Bihar
+        </option>
+
+        <option>
+          Uttar Pradesh
+        </option>
+
+        <option>
+          Jharkhand
+        </option>
+
+        <option>
+          West Bengal
+        </option>
+
+        <option>
+          Other
+        </option>
+
       </select>
 
-      <label>District</label>
-      <input type="text" id="district" placeholder="Enter your district" required>
 
-      <label>Select Plan</label>
+      <label>
+        District
+      </label>
+
+      <input
+        type="text"
+        id="district"
+        placeholder="Enter your district"
+        required
+      >
+
+
+      <label>
+        Select Plan
+      </label>
+
       <select id="plan" required>
-        <option value="">Choose Plan</option>
-        <option>Retailer - ₹50</option>
-        <option>Distributor - ₹150</option>
-        <option>Super Distributor - ₹400</option>
+
+        <option value="">
+          Choose Plan
+        </option>
+
+        <option>
+          Retailer - ₹50
+        </option>
+
+        <option>
+          Distributor - ₹150
+        </option>
+
+        <option>
+          Super Distributor - ₹400
+        </option>
+
       </select>
 
-      <button type="submit" class="submit-btn">
+
+      <button
+        type="submit"
+        class="submit-btn"
+      >
         Submit Registration
       </button>
 
-      <div class="message" id="successMessage">
-        ✅ Registration form submitted successfully!<br><br>
-        Your application is currently <b>Pending Activation</b>.
+
+      <div
+        class="message"
+        id="successMessage"
+      >
+        ✅ Registration submitted successfully!
+
+        <br><br>
+
+        Your application is currently
+        <b>Pending Activation</b>.
+      </div>
+
+
+      <div
+        class="error-message"
+        id="errorMessage"
+      >
+        ❌ Registration failed.
+
+        <br><br>
+
+        Please check your information and try again.
       </div>
 
     </form>
@@ -360,54 +548,139 @@ footer{
 
 </section>
 
+
 <footer>
-  © 2026 UMANG DIGITAL SERVICE. All Rights Reserved.
+
+  © 2026 UMANG DIGITAL SERVICE.
+  All Rights Reserved.
+
 </footer>
 
+
 <script>
-const SUPABASE_URL = "https://aptsmttjexkijxdnbqft.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY = "YOUR_PUBLISHABLE_KEY";
+const SUPABASE_URL =
+"https://aptsmttjexkijxdnbqft.supabase.co";
 
-const supabaseClient = window.supabase.createClient(
+
+/*
+  IMPORTANT:
+  Replace YOUR_PUBLISHABLE_KEY with your
+  Supabase Publishable Key.
+*/
+
+const SUPABASE_PUBLISHABLE_KEY =
+"YOUR_PUBLISHABLE_KEY";
+
+
+const supabaseClient =
+window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
 
-document.getElementById("registrationForm").addEventListener("submit", async function(event) {
-  event.preventDefault();
 
-  const submitButton = this.querySelector(".submit-btn");
-  const successMessage = document.getElementById("successMessage");
+document
+.getElementById("registrationForm")
+.addEventListener(
+  "submit",
+  async function(event){
 
-  submitButton.disabled = true;
-  submitButton.textContent = "Submitting...";
+    event.preventDefault();
 
-  const { error } = await supabaseClient
-    .from("registrations")
-    .insert([{
-      name: document.getElementById("name").value.trim(),
-      mobile: document.getElementById("mobile").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      state: document.getElementById("state").value,
-      district: document.getElementById("district").value.trim(),
-      plan: document.getElementById("plan").value
-    }]);
 
-  if (error) {
-    console.error(error);
-    alert("Registration failed. Please try again.");
+    const form = this;
+
+    const submitButton =
+      form.querySelector(".submit-btn");
+
+    const successMessage =
+      document.getElementById("successMessage");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
+
+    successMessage.style.display = "none";
+    errorMessage.style.display = "none";
+
+
+    submitButton.disabled = true;
+
+    submitButton.textContent =
+      "Submitting...";
+
+
+    const registrationData = {
+
+      name:
+        document.getElementById("name")
+        .value.trim(),
+
+      mobile:
+        document.getElementById("mobile")
+        .value.trim(),
+
+      email:
+        document.getElementById("email")
+        .value.trim(),
+
+      state:
+        document.getElementById("state")
+        .value,
+
+      district:
+        document.getElementById("district")
+        .value.trim(),
+
+      plan:
+        document.getElementById("plan")
+        .value
+
+    };
+
+
+    const { error } =
+      await supabaseClient
+      .from("registrations")
+      .insert([registrationData]);
+
+
+    if(error){
+
+      console.error(
+        "Supabase Error:",
+        error
+      );
+
+      errorMessage.style.display =
+        "block";
+
+      submitButton.disabled = false;
+
+      submitButton.textContent =
+        "Submit Registration";
+
+      return;
+
+    }
+
+
+    successMessage.style.display =
+      "block";
+
+    form.reset();
+
+
     submitButton.disabled = false;
-    submitButton.textContent = "Submit Registration";
-    return;
+
+    submitButton.textContent =
+      "Submit Registration";
+
   }
+);
 
-  successMessage.style.display = "block";
-  this.reset();
-
-  submitButton.disabled = false;
-  submitButton.textContent = "Submit Registration";
-});
 </script>
+
 </body>
 </html>

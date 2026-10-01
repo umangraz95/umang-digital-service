@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -364,18 +365,49 @@ footer{
 </footer>
 
 <script>
+const SUPABASE_URL = "https://aptsmttjexkijxdnbqft.supabase.co";
 
-document.getElementById("registrationForm").addEventListener("submit", function(event){
+const SUPABASE_PUBLISHABLE_KEY = "YOUR_PUBLISHABLE_KEY";
 
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+document.getElementById("registrationForm").addEventListener("submit", async function(event) {
   event.preventDefault();
 
-  document.getElementById("successMessage").style.display = "block";
+  const submitButton = this.querySelector(".submit-btn");
+  const successMessage = document.getElementById("successMessage");
 
+  submitButton.disabled = true;
+  submitButton.textContent = "Submitting...";
+
+  const { error } = await supabaseClient
+    .from("registrations")
+    .insert([{
+      name: document.getElementById("name").value.trim(),
+      mobile: document.getElementById("mobile").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      state: document.getElementById("state").value,
+      district: document.getElementById("district").value.trim(),
+      plan: document.getElementById("plan").value
+    }]);
+
+  if (error) {
+    console.error(error);
+    alert("Registration failed. Please try again.");
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Registration";
+    return;
+  }
+
+  successMessage.style.display = "block";
   this.reset();
 
+  submitButton.disabled = false;
+  submitButton.textContent = "Submit Registration";
 });
-
 </script>
-
 </body>
 </html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>UMANG DIGITAL SERVICE - Application Status</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #07111f;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 520px;
+      background: #0d1b2a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      text-align: center;
+      color: #4ade80;
+      font-size: 25px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aab6c5;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 9px;
+      border: 1px solid #334155;
+      background: #07111f;
+      color: white;
+      outline: none;
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+
+    input:focus {
+      border-color: #4ade80;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #4ade80;
+      color: #06120b;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #07111f;
+      border: 1px solid #26364a;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #aab6c5;
+    }
+
+    .value {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .pending {
+      background: rgba(250,204,21,0.15);
+      color: #facc15;
+    }
+
+    .approved {
+      background: rgba(96,165,250,0.15);
+      color: #60a5fa;
+    }
+
+    .active {
+      background: rgba(74,222,128,0.15);
+      color: #4ade80;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.3);
+      color: #f87171;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #aab6c5;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back:hover {
+      color: #4ade80;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <div class="logo">
+      UMANG DIGITAL SERVICE
+    </div>
+
+    <div class="subtitle">
+      Check Your Application Status
+    </div>
+
+    <label for="mobile">
+      Registered Mobile Number
+    </label>
+
+    <input
+      type="tel"
+      id="mobile"
+      maxlength="10"
+      placeholder="Enter 10 digit mobile number"
+    >
+
+    <button id="checkButton">
+      Check Status
+    </button>
+
+    <div id="error" class="error"></div>
+
+    <div id="result" class="result">
+
+      <div class="row">
+        <span class="label">Name</span>
+        <span class="value" id="name"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Mobile</span>
+        <span class="value" id="mobileResult"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Plan</span>
+        <span class="value" id="plan"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">State</span>
+        <span class="value" id="state"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">District</span>
+        <span class="value" id="district"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Status</span>
+        <span class="value">
+          <span id="status" class="status"></span>
+        </span>
+      </div>
+
+      <div class="row">
+        <span class="label">Application Date</span>
+        <span class="value" id="created"></span>
+      </div>
+
+    </div>
+
+    <a
+      class="back"
+      href="index.html"
+    >
+      ← Back to Registration
+    </a>
+
+  </div>
+
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://aptsmttjexkijxdnbqft.supabase.co";
+
+   const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_LxG-V8KrWFcPzXY_2XItBQ_HVeZPVqF";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const checkButton =
+      document.getElementById("checkButton");
+
+    const mobileInput =
+      document.getElementById("mobile");
+
+    const result =
+      document.getElementById("result");
+
+    const error =
+      document.getElementById("error");
+
+
+    checkButton.addEventListener(
+      "click",
+      async function() {
+
+        const mobile =
+          mobileInput.value.trim();
+
+        result.style.display = "none";
+        error.style.display = "none";
+
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+
+          error.textContent =
+            "Please enter a valid 10 digit mobile number.";
+
+          error.style.display = "block";
+
+          return;
+        }
+
+
+        checkButton.disabled = true;
+        checkButton.textContent = "Checking...";
+
+
+        const {
+          data,
+          error: dbError
+        } =
+          await supabaseClient
+          .from("registrations")
+          .select(
+            "name,mobile,plan,state,district,status,created_at"
+          )
+          .eq("mobile", mobile)
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          )
+          .limit(1);
+
+
+        if (dbError) {
+
+          console.error(dbError);
+
+          error.textContent =
+            "Unable to check status. Please try again.";
+
+          error.style.display = "block";
+
+          checkButton.disabled = false;
+          checkButton.textContent = "Check Status";
+
+          return;
+        }
+
+
+        if (!data || data.length === 0) {
+
+          error.textContent =
+            "No registration found for this mobile number.";
+
+          error.style.display = "block";
+
+          checkButton.disabled = false;
+          checkButton.textContent = "Check Status";
+
+          return;
+        }
+
+
+        const item = data[0];
+
+
+        document.getElementById("name").textContent =
+          item.name || "-";
+
+        document.getElementById("mobileResult").textContent =
+          item.mobile || "-";
+
+        document.getElementById("plan").textContent =
+          item.plan || "-";
+
+        document.getElementById("state").textContent =
+          item.state || "-";
+
+        document.getElementById("district").textContent =
+          item.district || "-";
+
+
+        const statusElement =
+          document.getElementById("status");
+
+        const currentStatus =
+          item.status || "Pending";
+
+        statusElement.textContent =
+          currentStatus;
+
+        statusElement.className =
+          "status " +
+          currentStatus.toLowerCase();
+
+
+        document.getElementById("created").textContent =
+          item.created_at
+          ? new Date(item.created_at).toLocaleString()
+          : "-";
+
+
+        result.style.display = "block";
+
+
+        checkButton.disabled = false;
+        checkButton.textContent = "Check Status";
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

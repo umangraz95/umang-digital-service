@@ -1,682 +1,941 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>UMANG DIGITAL SERVICE</title>
+  <title>UMANG DIGITAL SERVICE</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-body{
-  background:#07111f;
-  color:white;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-header{
-  background:#0d1b2a;
-  padding:18px 7%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #24364d;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
+    body {
+      background: #07111f;
+      color: #ffffff;
+      line-height: 1.6;
+    }
 
-.logo{
-  color:#4ade80;
-  font-size:21px;
-  font-weight:bold;
-}
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 17, 31, 0.96);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+    }
 
-nav a{
-  color:white;
-  text-decoration:none;
-  margin-left:20px;
-}
+    .navbar {
+      max-width: 1150px;
+      margin: auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-nav a:hover{
-  color:#4ade80;
-}
+    .logo {
+      font-size: 21px;
+      font-weight: 800;
+      color: #4ade80;
+      text-decoration: none;
+      white-space: nowrap;
+    }
 
-.hero{
-  min-height:75vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:50px 20px;
-  background:linear-gradient(135deg,#07111f,#102a43);
-}
+    nav {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-.hero h1{
-  font-size:48px;
-  margin-bottom:20px;
-}
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.2s;
+    }
 
-.hero h1 span{
-  color:#4ade80;
-}
+    nav a:hover {
+      color: #4ade80;
+    }
 
-.hero p{
-  color:#cbd5e1;
-  font-size:18px;
-  line-height:1.7;
-  max-width:750px;
-  margin:auto;
-}
+    /* COMMON */
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 0 20px;
+    }
 
-.btn{
-  display:inline-block;
-  padding:13px 22px;
-  margin:25px 5px;
-  border-radius:9px;
-  text-decoration:none;
-  font-weight:bold;
-}
+    section {
+      padding: 75px 0;
+    }
 
-.green{
-  background:#4ade80;
-  color:#06120a;
-}
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-.outline{
-  border:1px solid #4ade80;
-  color:white;
-}
+    .section-title h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
 
-.section{
-  padding:70px 7%;
-  text-align:center;
-}
+    .section-title p {
+      color: #aab6c5;
+    }
 
-.section h2{
-  font-size:32px;
-  margin-bottom:35px;
-}
+    /* HERO */
+    .hero {
+      min-height: 78vh;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at top right, rgba(74,222,128,0.12), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(59,130,246,0.10), transparent 35%);
+    }
 
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
+    .hero-content {
+      max-width: 800px;
+      margin: auto;
+    }
 
-.card{
-  background:#0d1b2a;
-  border:1px solid #263b52;
-  border-radius:15px;
-  padding:30px 20px;
-}
+    .hero h1 {
+      font-size: 52px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
 
-.card h3{
-  color:#4ade80;
-  margin-bottom:15px;
-}
+    .hero h1 span {
+      color: #4ade80;
+    }
 
-.card p{
-  color:#cbd5e1;
-  line-height:1.6;
-}
+    .hero p {
+      color: #b8c2d0;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
 
-.price{
-  font-size:30px;
-  font-weight:bold;
-  margin:18px;
-}
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-.form-box{
-  max-width:650px;
-  margin:auto;
-  background:#0d1b2a;
-  border:1px solid #263b52;
-  border-radius:16px;
-  padding:30px;
-  text-align:left;
-}
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.form-box h2{
-  text-align:center;
-}
+    .btn-primary {
+      background: #4ade80;
+      color: #06120b;
+    }
 
-label{
-  display:block;
-  margin:15px 0 7px;
-  color:#cbd5e1;
-}
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
 
-input,select{
-  width:100%;
-  padding:13px;
-  border-radius:8px;
-  border:1px solid #38516b;
-  background:#07111f;
-  color:white;
-  outline:none;
-}
+    .btn-secondary {
+      border: 1px solid #4ade80;
+      color: #4ade80;
+      background: transparent;
+    }
 
-input:focus,select:focus{
-  border-color:#4ade80;
-}
+    .btn-secondary:hover {
+      background: rgba(74,222,128,0.08);
+    }
 
-.submit-btn{
-  width:100%;
-  border:0;
-  padding:14px;
-  margin-top:22px;
-  border-radius:9px;
-  background:#4ade80;
-  color:#06120a;
-  font-weight:bold;
-  font-size:16px;
-  cursor:pointer;
-}
+    /* SERVICES */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
-.submit-btn:disabled{
-  opacity:0.6;
-  cursor:not-allowed;
-}
+    .card {
+      background: #0d1b2a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 15px;
+      padding: 28px;
+      transition: 0.2s;
+    }
 
-.message{
-  display:none;
-  margin-top:20px;
-  padding:15px;
-  background:#123d29;
-  border:1px solid #4ade80;
-  border-radius:8px;
-  color:#bbf7d0;
-}
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(74,222,128,0.35);
+    }
 
-.error-message{
-  display:none;
-  margin-top:20px;
-  padding:15px;
-  background:#451a1a;
-  border:1px solid #f87171;
-  border-radius:8px;
-  color:#fecaca;
-}
+    .card .icon {
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
 
-footer{
-  padding:25px;
-  text-align:center;
-  background:#0d1b2a;
-  color:#94a3b8;
-}
+    .card h3 {
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
 
-@media(max-width:700px){
+    .card p {
+      color: #aab6c5;
+      font-size: 14px;
+    }
 
-  header{
-    flex-direction:column;
-    gap:15px;
-  }
+    /* PLANS */
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
-  nav a{
-    margin:5px;
-    display:inline-block;
-  }
+    .plan {
+      background: #0d1b2a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+    }
 
-  .hero h1{
-    font-size:34px;
-  }
+    .plan h3 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
 
-  .cards{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+    .price {
+      font-size: 35px;
+      font-weight: 800;
+      color: #4ade80;
+      margin: 15px 0;
+    }
+
+    .plan p {
+      color: #aab6c5;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* REGISTRATION */
+    .register-box {
+      max-width: 700px;
+      margin: auto;
+      background: #0d1b2a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 8px;
+      border: 1px solid #26364a;
+      background: #07111f;
+      color: #ffffff;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #4ade80;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .success-message {
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.3);
+      color: #4ade80;
+    }
+
+    .error-message {
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.3);
+      color: #f87171;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 30px 20px;
+      text-align: center;
+      color: #8d99a8;
+      font-size: 14px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 800px) {
+
+      .navbar {
+        flex-direction: column;
+      }
+
+      nav {
+        gap: 14px;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .cards,
+      .plans {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 55px 0;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <!-- HEADER -->
+  <header>
+    <div class="navbar">
 
-  <div class="logo">
-    UMANG DIGITAL SERVICE
-  </div>
-
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
-    <a href="#plans">Plans</a>
-    <a href="#register">Register</a>
-  </nav>
-
-</header>
-
-
-<section class="hero" id="home">
-
-  <div>
-
-    <h1>
-      Welcome to <span>UMANG DIGITAL SERVICE</span>
-    </h1>
-
-    <p>
-      Cyber Cafe & Digital Services Portal.
-      Choose your plan and register for our digital service platform.
-    </p>
-
-    <a href="#plans" class="btn green">
-      View Plans
-    </a>
-
-    <a href="#register" class="btn outline">
-      Register Now
-    </a>
-
-  </div>
-
-</section>
-
-
-<section class="section" id="services">
-
-  <h2>Our Services</h2>
-
-  <div class="cards">
-
-    <div class="card">
-      <h3>🖨️ Printing & Xerox</h3>
-
-      <p>
-        Colour print, B&W print, Xerox, scanning,
-        lamination and passport photo services.
-      </p>
-    </div>
-
-
-    <div class="card">
-
-      <h3>📄 Online Forms</h3>
-
-      <p>
-        Online application assistance for eligible
-        government, education and digital services.
-      </p>
-
-    </div>
-
-
-    <div class="card">
-
-      <h3>💻 Digital Services</h3>
-
-      <p>
-        Digital documentation and other authorized
-        cyber cafe services.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="section" id="plans">
-
-  <h2>Choose Your Plan</h2>
-
-  <div class="cards">
-
-    <div class="card">
-
-      <h3>Retailer</h3>
-
-      <div class="price">
-        ₹50
-      </div>
-
-      <p>
-        Cyber Cafe & Digital Services
-      </p>
-
-      <a href="#register" class="btn green">
-        Register
+      <a href="#home" class="logo">
+        UMANG DIGITAL SERVICE
       </a>
 
-    </div>
-
-
-    <div class="card">
-
-      <h3>Distributor</h3>
-
-      <div class="price">
-        ₹150
-      </div>
-
-      <p>
-        Retailer Services + Additional Services
-      </p>
-
-      <a href="#register" class="btn green">
-        Register
-      </a>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#plans">Plans</a>
+        <a href="#register">Register</a>
+      </nav>
 
     </div>
+  </header>
 
 
-    <div class="card">
+  <!-- HERO -->
+  <section class="hero" id="home">
 
-      <h3>Super Distributor</h3>
+    <div class="container">
 
-      <div class="price">
-        ₹400
+      <div class="hero-content">
+
+        <h1>
+          Welcome to
+          <span>UMANG DIGITAL SERVICE</span>
+        </h1>
+
+        <p>
+          Digital Services Portal for Retailers, Distributors
+          and Super Distributors.
+        </p>
+
+        <div class="buttons">
+
+          <a href="#plans" class="btn btn-primary">
+            View Plans
+          </a>
+
+          <a href="#register" class="btn btn-secondary">
+            Register Now
+          </a>
+
+        </div>
+
       </div>
-
-      <p>
-        Advanced Services + Authorized ID Management
-      </p>
-
-      <a href="#register" class="btn green">
-        Register
-      </a>
 
     </div>
 
-  </div>
-
-</section>
+  </section>
 
 
-<section class="section" id="register">
+  <!-- SERVICES -->
+  <section id="services">
 
-  <div class="form-box">
+    <div class="container">
 
-    <h2>
-      📝 Register Now
-    </h2>
+      <div class="section-title">
 
+        <h2>Our Services</h2>
 
-    <form id="registrationForm">
+        <p>
+          Digital and online service solutions
+        </p>
 
-      <label>
-        Full Name
-      </label>
-
-      <input
-        type="text"
-        id="name"
-        placeholder="Enter your full name"
-        required
-      >
-
-
-      <label>
-        Mobile Number
-      </label>
-
-      <input
-        type="tel"
-        id="mobile"
-        placeholder="Enter 10 digit mobile number"
-        pattern="[0-9]{10}"
-        maxlength="10"
-        required
-      >
-
-
-      <label>
-        Email Address
-      </label>
-
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        required
-      >
-
-
-      <label>
-        State
-      </label>
-
-      <select id="state" required>
-
-        <option value="">
-          Select State
-        </option>
-
-        <option>
-          Bihar
-        </option>
-
-        <option>
-          Uttar Pradesh
-        </option>
-
-        <option>
-          Jharkhand
-        </option>
-
-        <option>
-          West Bengal
-        </option>
-
-        <option>
-          Other
-        </option>
-
-      </select>
-
-
-      <label>
-        District
-      </label>
-
-      <input
-        type="text"
-        id="district"
-        placeholder="Enter your district"
-        required
-      >
-
-
-      <label>
-        Select Plan
-      </label>
-
-      <select id="plan" required>
-
-        <option value="">
-          Choose Plan
-        </option>
-
-        <option>
-          Retailer - ₹50
-        </option>
-
-        <option>
-          Distributor - ₹150
-        </option>
-
-        <option>
-          Super Distributor - ₹400
-        </option>
-
-      </select>
-
-
-      <button
-        type="submit"
-        class="submit-btn"
-      >
-        Submit Registration
-      </button>
-
-
-      <div
-        class="message"
-        id="successMessage"
-      >
-        ✅ Registration submitted successfully!
-
-        <br><br>
-
-        Your application is currently
-        <b>Pending Activation</b>.
       </div>
 
 
-      <div
-        class="error-message"
-        id="errorMessage"
-      >
-        ❌ Registration failed.
+      <div class="cards">
 
-        <br><br>
+        <div class="card">
 
-        Please check your information and try again.
+          <div class="icon">💻</div>
+
+          <h3>Retailer Services</h3>
+
+          <p>
+            Digital service support for cyber cafe,
+            online forms, printing and other authorized services.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">🏢</div>
+
+          <h3>Distributor Services</h3>
+
+          <p>
+            Distributor-level service management
+            and retailer support.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">🚀</div>
+
+          <h3>Super Distributor</h3>
+
+          <p>
+            Advanced management features for
+            authorized distributors and their network.
+          </p>
+
+        </div>
+
       </div>
 
-    </form>
+    </div>
 
-  </div>
-
-</section>
+  </section>
 
 
-<footer>
+  <!-- PLANS -->
+  <section id="plans">
 
-  © 2026 UMANG DIGITAL SERVICE.
-  All Rights Reserved.
+    <div class="container">
 
-</footer>
+      <div class="section-title">
 
+        <h2>Choose Your Plan</h2>
 
-<script>
+        <p>
+          Select a plan and submit your registration.
+        </p>
 
-const SUPABASE_URL =
-"https://aptsmttjexkijxdnbqft.supabase.co";
-
-
-const SUPABASE_PUBLISHABLE_KEY =
-"YAHAN_APNI_SUPABASE_PUBLISHABLE_KEY_PASTE_KARO";
-const SUPABASE_PUBLISHABLE_KEY =
-"YOUR_PUBLISHABLE_KEY";
+      </div>
 
 
-const supabaseClient =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+      <div class="plans">
+
+        <div class="plan">
+
+          <h3>Retailer</h3>
+
+          <div class="price">₹50</div>
+
+          <p>
+            Basic digital service retailer plan.
+          </p>
+
+          <a href="#register" class="btn btn-primary">
+            Select Retailer
+          </a>
+
+        </div>
 
 
-document
-.getElementById("registrationForm")
-.addEventListener(
-  "submit",
-  async function(event){
+        <div class="plan">
 
-    event.preventDefault();
+          <h3>Distributor</h3>
 
+          <div class="price">₹150</div>
 
-    const form = this;
+          <p>
+            Distributor-level service plan.
+          </p>
 
-    const submitButton =
-      form.querySelector(".submit-btn");
+          <a href="#register" class="btn btn-primary">
+            Select Distributor
+          </a>
 
-    const successMessage =
-      document.getElementById("successMessage");
-
-    const errorMessage =
-      document.getElementById("errorMessage");
+        </div>
 
 
-    successMessage.style.display = "none";
-    errorMessage.style.display = "none";
+        <div class="plan">
+
+          <h3>Super Distributor</h3>
+
+          <div class="price">₹400</div>
+
+          <p>
+            Advanced distributor management plan.
+          </p>
+
+          <a href="#register" class="btn btn-primary">
+            Select Super Distributor
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
-    submitButton.disabled = true;
+  <!-- REGISTRATION -->
+  <section id="register">
 
-    submitButton.textContent =
-      "Submitting...";
+    <div class="container">
 
+      <div class="section-title">
 
-    const registrationData = {
+        <h2>Registration</h2>
 
-      name:
-        document.getElementById("name")
-        .value.trim(),
+        <p>
+          Submit your details for activation.
+        </p>
 
-      mobile:
-        document.getElementById("mobile")
-        .value.trim(),
-
-      email:
-        document.getElementById("email")
-        .value.trim(),
-
-      state:
-        document.getElementById("state")
-        .value,
-
-      district:
-        document.getElementById("district")
-        .value.trim(),
-
-      plan:
-        document.getElementById("plan")
-        .value
-
-    };
+      </div>
 
 
-    const { error } =
-      await supabaseClient
-      .from("registrations")
-      .insert([registrationData]);
+      <div class="register-box">
+
+        <form id="registrationForm">
+
+          <!-- NAME -->
+          <div class="form-group">
+
+            <label for="name">
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your full name"
+              required
+            >
+
+          </div>
 
 
-    if(error){
+          <!-- MOBILE -->
+          <div class="form-group">
 
-      console.error(
-        "Supabase Error:",
-        error
+            <label for="mobile">
+              Mobile Number
+            </label>
+
+            <input
+              type="tel"
+              id="mobile"
+              name="mobile"
+              placeholder="10 digit mobile number"
+              pattern="[0-9]{10}"
+              maxlength="10"
+              inputmode="numeric"
+              required
+            >
+
+          </div>
+
+
+          <!-- EMAIL -->
+          <div class="form-group">
+
+            <label for="email">
+              Email Address
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            >
+
+          </div>
+
+
+          <!-- STATE -->
+          <div class="form-group">
+
+            <label for="state">
+              State
+            </label>
+
+            <select id="state" name="state" required>
+
+              <option value="">
+                Select State
+              </option>
+
+              <option value="Bihar">
+                Bihar
+              </option>
+
+              <option value="Jharkhand">
+                Jharkhand
+              </option>
+
+              <option value="Uttar Pradesh">
+                Uttar Pradesh
+              </option>
+
+              <option value="West Bengal">
+                West Bengal
+              </option>
+
+              <option value="Delhi">
+                Delhi
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- DISTRICT -->
+          <div class="form-group">
+
+            <label for="district">
+              District
+            </label>
+
+            <input
+              type="text"
+              id="district"
+              name="district"
+              placeholder="Enter your district"
+              required
+            >
+
+          </div>
+
+
+          <!-- PLAN -->
+          <div class="form-group">
+
+            <label for="plan">
+              Select Plan
+            </label>
+
+            <select id="plan" name="plan" required>
+
+              <option value="">
+                Select Plan
+              </option>
+
+              <option value="Retailer - ₹50">
+                Retailer - ₹50
+              </option>
+
+              <option value="Distributor - ₹150">
+                Distributor - ₹150
+              </option>
+
+              <option value="Super Distributor - ₹400">
+                Super Distributor - ₹400
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- SUBMIT -->
+          <button
+            type="submit"
+            class="btn btn-primary submit-btn"
+          >
+            Submit Registration
+          </button>
+
+
+          <!-- SUCCESS -->
+          <div
+            id="successMessage"
+            class="message success-message"
+          >
+            Registration submitted successfully!
+            Your application is currently Pending Activation.
+          </div>
+
+
+          <!-- ERROR -->
+          <div
+            id="errorMessage"
+            class="message error-message"
+          >
+            Registration failed. Please try again.
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    © 2026 UMANG DIGITAL SERVICE.
+    All rights reserved.
+
+  </footer>
+
+
+  <!-- SUPABASE JAVASCRIPT -->
+  <script>
+
+    /*
+      =====================================================
+      SUPABASE CONFIGURATION
+      =====================================================
+
+      IMPORTANT:
+      1. SUPABASE_URL is already correct.
+      2. Replace ONLY the text inside
+         SUPABASE_PUBLISHABLE_KEY.
+      3. Use Supabase PUBLISHABLE KEY only.
+      4. NEVER put Supabase Secret Key here.
+    */
+
+    const SUPABASE_URL =
+      "https://aptsmttjexkijxdnbqft.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "YAHAN_APNI_SUPABASE_PUBLISHABLE_KEY_PASTE_KARO";
+
+
+    /*
+      Create Supabase client
+    */
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
       );
 
-      errorMessage.style.display =
-        "block";
 
-      submitButton.disabled = false;
+    /*
+      Registration Form
+    */
 
-      submitButton.textContent =
-        "Submit Registration";
-
-      return;
-
-    }
+    const registrationForm =
+      document.getElementById("registrationForm");
 
 
-    successMessage.style.display =
-      "block";
+    registrationForm.addEventListener(
+      "submit",
+      async function(event) {
 
-    form.reset();
+        event.preventDefault();
 
 
-    submitButton.disabled = false;
+        const form = this;
 
-    submitButton.textContent =
-      "Submit Registration";
+        const submitButton =
+          form.querySelector(".submit-btn");
 
-  }
-);
+        const successMessage =
+          document.getElementById("successMessage");
 
-</script>
+        const errorMessage =
+          document.getElementById("errorMessage");
+
+
+        /*
+          Hide old messages
+        */
+
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
+
+
+        /*
+          Disable button while submitting
+        */
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+
+
+        /*
+          Get form data
+        */
+
+        const registrationData = {
+
+          name:
+            document
+            .getElementById("name")
+            .value
+            .trim(),
+
+          mobile:
+            document
+            .getElementById("mobile")
+            .value
+            .trim(),
+
+          email:
+            document
+            .getElementById("email")
+            .value
+            .trim(),
+
+          state:
+            document
+            .getElementById("state")
+            .value,
+
+          district:
+            document
+            .getElementById("district")
+            .value
+            .trim(),
+
+          plan:
+            document
+            .getElementById("plan")
+            .value
+
+        };
+
+
+        /*
+          Send registration to Supabase
+        */
+
+        const { error } =
+          await supabaseClient
+          .from("registrations")
+          .insert([registrationData]);
+
+
+        /*
+          If error
+        */
+
+        if (error) {
+
+          console.error(
+            "Supabase Registration Error:",
+            error
+          );
+
+          errorMessage.textContent =
+            "Registration failed. Please check your Supabase settings.";
+
+          errorMessage.style.display = "block";
+
+          submitButton.disabled = false;
+
+          submitButton.textContent =
+            "Submit Registration";
+
+          return;
+
+        }
+
+
+        /*
+          Success
+        */
+
+        successMessage.textContent =
+          "Registration submitted successfully! Your application is currently Pending Activation.";
+
+        successMessage.style.display = "block";
+
+
+        /*
+          Reset form
+        */
+
+        form.reset();
+
+
+        /*
+          Enable button again
+        */
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+          "Submit Registration";
+
+      }
+
+    );
+
+  </script>
 
 </body>
 </html>
